@@ -1,16 +1,15 @@
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI('43e1cbe6b8084b90844cde02457ac70d');
 
-function listTopHeadlines() {
+async function listTopHeadlines() {
     return await newsapi.v2.topHeadlines({
         language: 'pt',
         country: 'br'
     });
 }
 
-async function listNews() {
-    let preparedDomains = await prepareDomains();
-    console.log(preparedDomains);
+async function listNews(domains) {
+    let preparedDomains = prepareDomains(domains);
     let resp = await newsapi.v2.everything({
         domains: preparedDomains,
         sortBy: 'publishedAt'
@@ -18,20 +17,19 @@ async function listNews() {
     return resp;
 }
 
-async function prepareDomains() {
-    let allDomains = await listAllAvailableDomains();
+function prepareDomains(domains) {
     let domains = '';
     allDomains.forEach(d => {
-        domains += d + ', '
+        domains += d.url + ', '
     });
     return domains;
 }
 
 async function listAllAvailableDomains() {
-    let resp = listTopHeadlines();
+    let resp = await listTopHeadlines();
     let domains = [];
     for(let i = 0; i < resp.articles.length; i ++) {
-        pushUnique(domains, resp.articles[i].source.name.toLowerCase());
+        pushUnique(domains, resp.articles[i].source.name);
     }
     return domains;
 }

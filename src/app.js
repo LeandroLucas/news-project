@@ -14,8 +14,10 @@ app.use(bodyParser.urlencoded({'extended':'false'}));
 //start routes
 //routes
 var news = require('./routes/news-rest');
+var domain = require('./routes/domain-rest');
 
 app.use('/news', news);
+app.use('/domain', domain);
 
 //end routes
 
@@ -36,4 +38,14 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+mongoose.connect('mongodb://nproject:AguaGelada!2#@ds111244.mlab.com:11244/news-project', { promiseLibrary: require('bluebird'), useNewUrlParser: true}, )
+  .then(() =>  console.log('Database connection succesful'))
+  .catch((err) => console.error(err));
+
+var domainSynchronizer = require('./schedulers/domain-synchronizer');
+domainSynchronizer.synchronizeDomains();
+setInterval(() => domainSynchronizer.synchronizeDomains(), 1000 * 60 * 60);
 module.exports = app;

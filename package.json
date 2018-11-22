@@ -10,8 +10,10 @@
   "author": "Leandro Santos",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "mongoose": "^5.3.13",
     "morgan": "^1.9.1",
     "newsapi": "^2.4.0"
   }
