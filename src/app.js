@@ -13,8 +13,8 @@ app.use(bodyParser.urlencoded({'extended':'false'}));
 
 //start routes
 //routes
-var news = require('./routes/news-rest');
-var domain = require('./routes/domain-rest');
+const news = require('./routes/news-rest');
+const domain = require('./routes/domain-rest');
 
 app.use('/news', news);
 app.use('/domain', domain);
@@ -48,4 +48,5 @@ mongoose.connect('mongodb://nproject:AguaGelada!2#@ds111244.mlab.com:11244/news-
 var domainSynchronizer = require('./schedulers/domain-synchronizer');
 domainSynchronizer.synchronizeDomains();
 setInterval(() => domainSynchronizer.synchronizeDomains(), 1000 * 60 * 60);
+
 module.exports = app;

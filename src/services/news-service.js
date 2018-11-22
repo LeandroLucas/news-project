@@ -12,7 +12,7 @@ async function listTopHeadlines() {
 async function listPersonalizedNews(user, page) {
     if(!page) page = 1;
     //TODO no futuro serão estraídos os domínios do user
-    const domains = domainService.list();
+    const domains = await domainService.list();
     const preparedDomains = prepareDomains(domains);
     return listNews(preparedDomains, page);
 }
@@ -21,12 +21,14 @@ async function listNews(preparedDomains, page) {
     let resp = await newsapi.v2.everything({
         page: page,
         domains: preparedDomains,
-        sortBy: 'publishedAt'
+        language: 'pt',
+        sortBy: 'publishedAt',
+        pageSize: 10
     });
     return resp;
 }
 
-function prepareDomains(domains) {
+function prepareDomains(allDomains) {
     let domains = '';
     allDomains.forEach(d => {
         domains += d.url + ', '
