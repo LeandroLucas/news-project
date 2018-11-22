@@ -1,5 +1,6 @@
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI('43e1cbe6b8084b90844cde02457ac70d');
+const domainService = require('./domain-service');
 
 async function listTopHeadlines() {
     return await newsapi.v2.topHeadlines({
@@ -8,9 +9,17 @@ async function listTopHeadlines() {
     });
 }
 
-async function listNews(domains) {
-    let preparedDomains = prepareDomains(domains);
+async function listPersonalizedNews(user, page) {
+    if(!page) page = 1;
+    //TODO no futuro serão estraídos os domínios do user
+    const domains = domainService.list();
+    const preparedDomains = prepareDomains(domains);
+    return listNews(preparedDomains, page);
+}
+
+async function listNews(preparedDomains, page) {
     let resp = await newsapi.v2.everything({
+        page: page,
         domains: preparedDomains,
         sortBy: 'publishedAt'
     });
@@ -40,4 +49,4 @@ function pushUnique(list, string) {
     }
 }
 
-module.exports = { listAllAvailableDomains, listNews };
+module.exports = { listAllAvailableDomains, listPersonalizedNews };
