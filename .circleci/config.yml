@@ -13,8 +13,9 @@ jobs:
       - checkout
       - run: npm install
   deploy:
-    steps:
-      - run: echo test
+    docker:
+      steps:
+        - run: echo test
 
 
 
