@@ -1,0 +1,46 @@
+tipo: GET
+uri: /news
+headers: {"token": "asdasasf"} (optional)
+description: Lista noticias personalizadas para um usuário(quando houver token) ou de todos os domains
+
+tipo: GET
+uri: /domain
+description: Lista todos os domains disponíveis'
+
+tipo: POST
+uri: /user
+body: {"email": "email@valido.com"}
+return: {"token": "asdasasf"}
+description: Criar usuário
+
+tipo: POST
+uri: /user/login
+body: {"email": "email@valido.com", "password": "senha"}
+return: {"token": "asdasasf"}
+description: Logar usuário
+
+tipo: POST
+uri: /user/logout
+headers: {"token": "asdasasf"}
+description: Deslogar usuário
+
+tipo: POST
+uri: /user/domain
+body: 
+[
+	{
+        "_id": "5bf6fde0ce30f42536972d73",
+        "name": "Estadao",
+        "url": "estadao.com.br",
+        "createdDate": "2018-11-22T19:05:04.328Z",
+        "__v": 0
+    },
+    {
+        "_id": "5bf6fde0ce30f42536972d72",
+        "name": "Terra",
+        "url": "terra.com.br",
+        "createdDate": "2018-11-22T19:05:04.327Z",
+        "__v": 0
+    }
+]
+description: editar dominios ativos do usuário (o default é todos os domínios ativos)
