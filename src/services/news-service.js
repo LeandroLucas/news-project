@@ -10,9 +10,17 @@ async function listTopHeadlines() {
 }
 
 async function listPersonalizedNews(user, page) {
-    if(!page) page = 1;
-    //TODO no futuro serão estraídos os domínios do user
-    const domains = await domainService.list();
+    if (!page) page = 1;
+    let domains = null;
+    if (user) {
+        let userDomains = await domainService.findUserDomains(user.superId);
+        if(userDomains) {
+            domains = userDomains.domains;
+        }
+    }
+    if (!domains || domains.length == 0) {
+        domains = await domainService.list();
+    }
     const preparedDomains = prepareDomains(domains);
     return listNews(preparedDomains, page);
 }
@@ -23,7 +31,8 @@ async function listNews(preparedDomains, page) {
         domains: preparedDomains,
         language: 'pt',
         sortBy: 'publishedAt',
-        pageSize: 10
+        pageSize: 100,
+        excludeDomains: ''
     });
     return resp;
 }
@@ -39,14 +48,14 @@ function prepareDomains(allDomains) {
 async function listAllAvailableDomains() {
     let resp = await listTopHeadlines();
     let domains = [];
-    for(let i = 0; i < resp.articles.length; i ++) {
+    for (let i = 0; i < resp.articles.length; i++) {
         pushUnique(domains, resp.articles[i].source.name);
     }
     return domains;
 }
 
 function pushUnique(list, string) {
-    if(!list.includes(string)) {
+    if (!list.includes(string)) {
         list.push(string);
     }
 }

@@ -11,7 +11,27 @@ async function create(domain) {
 }
 
 async function list() {
-    return await domainDao.list();
+    let domains = await domainDao.list();
+    return removeDomainsId(domains);
 }
 
-module.exports = { create, list };
+function removeDomainsId(domains) {
+    domains.forEach(d => {
+        delete d._id;
+    });
+    return domains;
+}
+
+async function saveUserDomains(user, domains) {
+    let userDomains = await findUserDomains(user.superId);
+    if(userDomains) {
+        await domainDao.deleteUserDomains(userDomains._id);
+    }
+    return await domainDao.saveUserDomains(user.superId, domains);
+}
+
+async function findUserDomains(userSuperId) {
+    return await domainDao.findUserDomains(userSuperId);
+}
+
+module.exports = { create, list, saveUserDomains, findUserDomains };

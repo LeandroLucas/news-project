@@ -3,23 +3,27 @@ var domainService = require('../services/domain-service');
 
 async function synchronizeDomains() {
     console.log('Rodando sincronização de domínios...')
-    let currentDomains = await newsService.listAllAvailableDomains();
-    let savedDomains = await domainService.list();
     let count = 0;
-    for(let i = 0; i < currentDomains.length; i++){
-        let cd = currentDomains[i];
-        let save = true;
-        for(let a = 0; a < savedDomains.length; a++) {
-            sd = savedDomains[a];
-            if(sd.url === cd.toLowerCase()) {
-                save = false;
-                break;
+    try {
+        let currentDomains = await newsService.listAllAvailableDomains();
+        let savedDomains = await domainService.list();
+        for(let i = 0; i < currentDomains.length; i++){
+            let cd = currentDomains[i];
+            let save = true;
+            for(let a = 0; a < savedDomains.length; a++) {
+                sd = savedDomains[a];
+                if(sd.url === cd.toLowerCase()) {
+                    save = false;
+                    break;
+                }
+            }
+            if(save) {
+                domainService.create(prepareDomain(cd));
+                count++;
             }
         }
-        if(save) {
-            domainService.create(prepareDomain(cd));
-            count++;
-        }
+    } catch (e) {
+        console.log(e);
     }
     console.log(count + ' dominios sincronizados.')
 }

@@ -1,14 +1,17 @@
 var express = require('express');
 var router = express.Router();
 var newsService = require('../services/news-service');
+const authysService = require('../services/authys-service');
 
 router.get('/', async function (req, res, next) {
     try {
         let token = req.headers.token;
-        // let user = await authysService.findUserBySessionToken(token);
+        let user = null;
+        if(token) {
+            user = await authysService.getUserBySessionToken(token);
+        }
         let page = req.query.page;
-        console.log('page: ' + page);
-        let resp = await newsService.listPersonalizedNews(null, page);
+        let resp = await newsService.listPersonalizedNews(user, page);
         res.json(resp);
     } catch (error) {
         console.error(error);

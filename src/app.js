@@ -15,7 +15,9 @@ app.use(bodyParser.urlencoded({'extended':'false'}));
 //routes
 const news = require('./routes/news-rest');
 const domain = require('./routes/domain-rest');
+const user = require('./routes/user-rest');
 
+app.use('/user', user);
 app.use('/news', news);
 app.use('/domain', domain);
 
@@ -41,7 +43,7 @@ app.use(function(err, req, res, next) {
 
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://nproject:AguaGelada!2#@ds111244.mlab.com:11244/news-project', { promiseLibrary: require('bluebird'), useNewUrlParser: true}, )
+mongoose.connect('mongodb://verdadeproduction:ColdWater!2#@ds115244.mlab.com:15244/verdade', { promiseLibrary: require('bluebird'), useNewUrlParser: true}, )
   .then(() =>  console.log('Database connection succesful'))
   .catch((err) => console.error(err));
 
