@@ -6,7 +6,7 @@ const authysService = require('../services/authys-service');
 router.get('/', async function (req, res, next) {
     try {
         let token = req.headers.token;
-        const user = await authysServicse.tryToFindUser(token);
+        const user = await authysService.tryToFindUser(token);
         let resp = await domainService.list(user);
         res.json(resp);
     } catch (error) {
