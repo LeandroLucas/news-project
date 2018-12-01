@@ -3,6 +3,19 @@ const CreationFailException = require('../exceptions/CreationFailException');
 const UserNotFoundExcption = require('../exceptions/UserNotFoundException');
 const SessionNotFoundExecption = require('../exceptions/SessionNotFoundException');
 
+async function tryToFindUser(token) {
+    try {
+        if (token) {
+            return await getUserBySessionToken(token);
+        } else {
+            return null;
+        }
+    } catch (e) {
+        console.log('Error: ' + e);
+        return null;
+    }
+}
+
 async function createUser(email) {
     let resp = await new Promise((resolve, reject) => {
         request.post(getOptions('/user/easy-email', { email: email },
@@ -71,7 +84,7 @@ async function logout(token) {
 
 async function getUserBySessionToken(token) {
     let resp = await new Promise((resolve, reject) => {
-        request.get(getOptions('/user/' + token, token,
+        request.get(getOptions('/user/find/' + token, null,
             (err, httpResponse, body) => {
                 if (err) reject(err);
                 if (httpResponse.statusCode != 200) {
@@ -101,4 +114,4 @@ function getOptions(path, body, callback) {
     return options;
 }
 
-module.exports = { createUser, login, logout, verify, getUserBySessionToken };
+module.exports = { createUser, login, logout, verify, getUserBySessionToken, tryToFindUser };

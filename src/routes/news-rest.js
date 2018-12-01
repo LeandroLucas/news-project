@@ -6,7 +6,7 @@ const authysService = require('../services/authys-service');
 router.get('/', async function (req, res, next) {
     try {
         let token = req.headers.token;
-        let user = tryToFindUser(token);
+        let user = authysService.tryToFindUser(token);
         let search = req.query.search;
         let page = req.query.page;
         let resp = await newsService.findNews(user, page, search);
@@ -16,17 +16,5 @@ router.get('/', async function (req, res, next) {
         res.sendStatus(error.status || 500);
     }
 });
-
-async function tryToFindUser(token) {
-    try {
-        if(token) {
-            return await authysService.getUserBySessionToken(token);
-        } else {
-             return null;
-        }
-    } catch(e) {
-        return null;
-    }
-}
 
 module.exports = router;

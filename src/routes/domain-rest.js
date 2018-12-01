@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var domainService = require('../services/domain-service');
+const domainService = require('../services/domain-service');
+const authysService = require('../services/authys-service');
 
 router.get('/', async function (req, res, next) {
     try {
-        let resp = await domainService.list();
+        let token = req.headers.token;
+        const user = await authysServicse.tryToFindUser(token);
+        let resp = await domainService.list(user);
         res.json(resp);
     } catch (error) {
         console.error(error);

@@ -43,7 +43,7 @@ app.use(function(err, req, res, next) {
 
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://verdadeproduction:ColdWater!2#@ds115244.mlab.com:15244/verdade', { promiseLibrary: require('bluebird'), useNewUrlParser: true}, )
+mongoose.connect('mongodb://verdadeproduction:ColdWater!2#@ds115244.mlab.com:15244/verdade', { promiseLibrary: require('bluebird'), useNewUrlParser: true})
   .then(() =>  console.log('Database connection succesful'))
   .catch((err) => console.error(err));
 
