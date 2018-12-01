@@ -6,7 +6,7 @@ const authysService = require('../services/authys-service');
 router.get('/', async function (req, res, next) {
     try {
         let token = req.headers.token;
-        let user = authysService.tryToFindUser(token);
+        let user = await authysService.tryToFindUser(token);
         let search = req.query.search;
         let page = req.query.page;
         let resp = await newsService.findNews(user, page, search);

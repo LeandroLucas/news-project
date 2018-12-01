@@ -6,10 +6,12 @@ const SessionNotFoundExecption = require('../exceptions/SessionNotFoundException
 async function tryToFindUser(token) {
     try {
         if (token) {
-            return await getUserBySessionToken(token);
-        } else {
-            return null;
+            let user = await getUserBySessionToken(token);
+            if(user) {
+                return JSON.parse(user);
+            }
         }
+        return null;
     } catch (e) {
         console.log('Error: ' + e);
         return null;

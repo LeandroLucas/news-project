@@ -13,7 +13,6 @@ async function create(domain) {
 async function list(user) {
     let domains = null;
     if (user) {
-        user = JSON.parse(user);
         let userDomains = await findUserDomains(user.superId);
         if (userDomains) {
             domains = userDomains.domains;
