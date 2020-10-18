@@ -37,7 +37,7 @@ router.post('/login', async function(req, res, next) {
     }
 });
 
-router.post('/logout', async function(req, res, next) {
+router.delete('/logout', async function(req, res, next) {
     try {
         let token = req.headers.token;
         await authysService.logout(token);

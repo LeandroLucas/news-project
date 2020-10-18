@@ -20,7 +20,7 @@ async function tryToFindUser(token) {
 
 async function createUser(email) {
     let resp = await new Promise((resolve, reject) => {
-        request.post(getOptions('/user/easy-email', { email: email },
+        request.post(getOptions('/account/easy-email', { email: email },
             (err, httpResponse, body) => {
                 if (err) reject(err);
                 if (httpResponse.statusCode != 200) {
@@ -37,7 +37,7 @@ async function createUser(email) {
 
 async function login(user) {
     let resp = await new Promise((resolve, reject) => {
-        request.post(getOptions('/user/login', { login: user.email, password: user.password },
+        request.post(getOptions('/account/login', { login: user.email, password: user.password },
             (err, httpResponse, body) => {
                 if (err) reject(err);
                 if (httpResponse.statusCode != 200) {
@@ -54,7 +54,7 @@ async function login(user) {
 
 async function verify(token) {
     await new Promise((resolve, reject) => {
-        request.get(getOptions('/user/verify/' + token, null,
+        request.get(getOptions('/account/verify/' + token, null,
             (err, httpResponse, body) => {
                 if (err) reject(err);
                 if (httpResponse.statusCode != 200) {
@@ -70,7 +70,7 @@ async function verify(token) {
 
 async function logout(token) {
     await new Promise((resolve, reject) => {
-        request.post(getOptions('/user/logout/' + token, null,
+        request.delete(getOptions('/account/session/' + token, null,
             (err, httpResponse, body) => {
                 if (err) reject(err);
                 if (httpResponse.statusCode != 200) {
@@ -86,7 +86,7 @@ async function logout(token) {
 
 async function getUserBySessionToken(token) {
     let resp = await new Promise((resolve, reject) => {
-        request.get(getOptions('/user/find/' + token, null,
+        request.get(getOptions('/account/find/' + token, null,
             (err, httpResponse, body) => {
                 if (err) reject(err);
                 if (httpResponse.statusCode != 200) {
@@ -103,10 +103,10 @@ async function getUserBySessionToken(token) {
 
 function getOptions(path, body, callback) {
     var options = {
-        url: 'http://35.199.93.229/utilityAccess' + path,
+        url: 'http://127.0.0.1:8080/authys/v1/utility-access' + path,
         headers: {
-            accessKey: '3ea951ef-8bae-4926-8c77-b154ca47286a',
-            secretKey: 'e12425a3-b9c0-4814-93ca-3c4d7ea51ff3'
+            accessKey: 'bfa8a472-e126-4868-9dfe-db062b75a864',
+            secretKey: '8b77264e-bf1b-46ad-9037-150f643ce488'
         },
         callback
     };
