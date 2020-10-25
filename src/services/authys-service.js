@@ -54,7 +54,7 @@ async function login(user) {
 
 async function verify(token) {
     await new Promise((resolve, reject) => {
-        request.get(getOptions('/account/verify/' + token, null,
+        request.get(getOptions('/account/verify-session/' + token, null,
             (err, httpResponse, body) => {
                 if (err) reject(err);
                 if (httpResponse.statusCode != 200) {
@@ -86,7 +86,7 @@ async function logout(token) {
 
 async function getUserBySessionToken(token) {
     let resp = await new Promise((resolve, reject) => {
-        request.get(getOptions('/account/find/' + token, null,
+        request.get(getOptions('/account/' + token, null,
             (err, httpResponse, body) => {
                 if (err) reject(err);
                 if (httpResponse.statusCode != 200) {

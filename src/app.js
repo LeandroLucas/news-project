@@ -42,11 +42,11 @@ app.use(function (err, req, res, next) {
 });
 
 let dbConnection = {
-  username: 'verdadeproduction',
-  password: 'ColdWater!2#',
-  address: 'ds115244.mlab.com',
+  username: 'DB_USERNAME',
+  password: 'DB_PASSWORD',
+  address: 'DB_ADDRESS',
   port: '15244',
-  database: 'verdade'
+  database: 'DB_NAME'
 }
 
 var mongoose = require('mongoose');
